@@ -1,0 +1,15 @@
+- name: Deploy Pod on K8s cluster
+  hosts: control
+  become: yes
+  tasks:
+  - name: nginx deployment
+    ansible.builtin.copy:
+      src: ~/kubernetes/files/pod_nginx.yml
+      dest: ~/pod_nginx.yaml
+      mode: '0600'
+      owner: root
+      group: root
+  - name: deploy a pod with kubectl
+    command: "kubectl create -f ~/pod_nginx.yaml"
+    become: cloud_user
+
